@@ -1,0 +1,41 @@
+name: LauBot
+
+on:
+  schedule:
+    # Cada 5 minutos, evitando el minuto 0 para reducir demoras de GitHub.
+    - cron: '2-59/5 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: laubot-kick-bot
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  run-laubot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependencia para cifrar secretos
+        run: python -m pip install --disable-pip-version-check pynacl
+
+      - name: Ejecutar LauBot
+        env:
+          KICK_CLIENT_ID: ${{ secrets.KICK_CLIENT_ID }}
+          KICK_CLIENT_SECRET: ${{ secrets.KICK_CLIENT_SECRET }}
+          KICK_BROADCASTER_USER_ID: '19129162'
+          KICK_TOKENS_JSON: ${{ secrets.KICK_TOKENS_JSON }}
+          LAUBOT_STATE_JSON: ${{ secrets.LAUBOT_STATE_JSON }}
+          GH_SECRETS_TOKEN: ${{ secrets.GH_SECRETS_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python laubot.py
