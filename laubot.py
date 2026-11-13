@@ -46,6 +46,12 @@ MESSAGES = {
         "Utilizando mi codigo: ELDELFOX || obtené un bono de bienvenida "
         "en tu primer deposito y disfruta de todos los beneficios del casino😎"
     ),
+    "GOLDRUSH": (
+        "🎰Registrate con este link: "
+        "https://goldclick.mom/kHz19sNf?sub2=eldelfox "
+        "y disfrutá de los grandes beneficios que te ofrece GOLDRUSH por tu registro. "
+        "🎰🍀 No hay codigo promocional 🍀"
+    ),
 }
 
 INSTAGRAM_MESSAGE = (
@@ -203,7 +209,7 @@ def get_live_title(tokens):
 
 def get_casino_command(title):
     upper = (title or "").upper()
-    for command in ("BETONWIN", "1WIN", "SLOTICO", "BIGGERZ"):
+    for command in ("BETONWIN", "1WIN", "SLOTICO", "BIGGERZ", "GOLDRUSH"):
         if f"!{command}" in upper:
             return command
     return None
